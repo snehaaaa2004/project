@@ -1,0 +1,13 @@
+
+
+body {
+  background-image: url('https://img.freepik.com/free-photo/3d-gym-equipment_23-2151114152.jpg?ga=GA1.1.978582487.1745483920&semt=ais_hybrid&w=740');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0;
+}
+
+.heading {
+    font-family: 'Anton', sans-serif;
+  }
