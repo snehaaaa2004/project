@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { getPlans } from '../api';
 import {
-  Select, MenuItem, FormControl, InputLabel, 
-  Card, CardContent, Typography, Button, CircularProgress, 
-  Chip, CardMedia, Box, List, ListItem, ListItemIcon, ListItemText, 
-  useMediaQuery, Paper
+  Select, MenuItem, FormControl,
+  Card, CardContent, Typography, Button, CircularProgress,
+  Chip, CardMedia, Box, Paper
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useMediaQuery } from '@mui/material';
+import { motion } from 'framer-motion';
 
-const typeFiltersWithIcons = [
-  { label: 'Workout', icon: <FitnessCenterIcon fontSize="small" /> },
-  { label: 'Diet', icon: <RestaurantIcon fontSize="small" /> },
-  { label: 'Supplement', icon: <LocalPharmacyIcon fontSize="small" /> },
-];
-
+const typeFilters = ['Workout', 'Diet', 'Supplement'];
 const categoryTabs = ['Muscle Gain', 'Weight Loss', 'General Fitness'];
 const ITEMS_PER_PAGE = 6;
 
@@ -55,32 +47,22 @@ const PlansDisplay = () => {
   };
 
   return (
-    <Box
-      sx={{
-        p: 2,
-        maxWidth: '1100px',
-        mx: 'auto',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-      }}
-    >
+    <Box sx={{ p: 2, maxWidth: '1100px', mx: 'auto', minHeight: '100vh' }}>
       <Typography
-        variant="h1"
+        variant="h4"
         align="center"
         gutterBottom
         sx={{
           fontFamily: `'Anton', sans-serif`,
-          fontSize:'2.5rem',
-          fontWeight:600,
+          fontWeight: 700,
+          fontSize: '2.8rem',
           color: 'white',
+          textShadow: '2px 2px 6px rgba(0,0,0,0.6)',
           mt: 4,
           mb: 3,
-          textShadow: '2px 2px 4px rgba(0,0,0,0.7)'
         }}
       >
-       ꜰɪᴛɴᴇꜱꜱ ᴘʟᴀɴꜱ
+        FITNESS PLANS
       </Typography>
 
       <Paper
@@ -130,20 +112,15 @@ const PlansDisplay = () => {
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-          {typeFiltersWithIcons.map(({ label, icon }) => (
+          {typeFilters.map((label) => (
             <Chip
               key={label}
-              label={
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  {icon}
-                  {label}
-                </span>
-              }
+              label={label}
               clickable
               onClick={() => setSelectedType(label)}
               variant={selectedType === label ? 'filled' : 'outlined'}
               sx={{
-                color: selectedType === label ? 'white' : 'white',
+                color: 'white',
                 borderColor: 'white',
                 backgroundColor: selectedType === label ? '#1976d2' : 'transparent',
                 '&:hover': {
@@ -173,52 +150,45 @@ const PlansDisplay = () => {
                 }}
               >
                 {plans.slice(0, visibleCount).map((plan) => (
-                  <Card
+                  <motion.div
                     key={plan._id}
-                    sx={{
-                      transition: 'transform 0.2s ease-in-out, boxShadow 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: 6,
-                      },
-                      borderRadius: 2,
-                      bgcolor: '#000',
-                      color: 'white',
-                    }}
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    {plan.image && (
-                      <CardMedia
-                        component="img"
-                        height="250"
-                        image={plan.image}
-                        alt={plan.name}
-                      />
-                    )}
-                    <CardContent>
-                      <Chip label={plan.type} color="primary" size="small" sx={{ mb: 1 }} />
-
-                      <Typography variant="h6" align="center" gutterBottom>
-                        {plan.name}
-                      </Typography>
-
-                      <Typography variant="body2" align="center" paragraph>
-                        {plan.description}
-                      </Typography>
-
-                      {plan.features?.length > 0 && (
-                        <List dense>
-                          {plan.features.map((feature, idx) => (
-                            <ListItem key={idx} disableGutters>
-                              <ListItemIcon sx={{ minWidth: 32 }}>
-                                <CheckCircleIcon fontSize="small" color="primary" />
-                              </ListItemIcon>
-                              <ListItemText primary={feature} />
-                            </ListItem>
-                          ))}
-                        </List>
+                    <Card
+                      sx={{
+                        bgcolor: '#000',
+                        color: 'white',
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {plan.image && (
+                        <CardMedia
+                          component="img"
+                          height="220"
+                          image={plan.image}
+                          alt={plan.name}
+                        />
                       )}
-                    </CardContent>
-                  </Card>
+                      <CardContent>
+                        <Chip
+                          label={plan.type}
+                          color="primary"
+                          size="small"
+                          sx={{ mb: 1 }}
+                        />
+
+                        <Typography variant="h6" align="center" gutterBottom>
+                          {plan.name}
+                        </Typography>
+
+                        <Typography variant="body2" align="center">
+                          {plan.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
                 ))}
               </Box>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import PlansDisplay from './componenets/PlanDisplay'
+import PlansDisplay from './componenets/PlansDisplay'
 
 function App() {
 
@@ -7,7 +7,7 @@ function App() {
 
     <div>
 
-      <PlansDisplay />
+      <PlansDisplay/>
 
     </div>
 
