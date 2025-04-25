@@ -7,7 +7,7 @@ function App() {
 
     <div>
 
-      <PlansDisplay/>
+      <PlansDisplay />
 
     </div>
 

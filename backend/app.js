@@ -25,10 +25,10 @@ mongoose.connect('mongodb+srv://dhiyasusanthomas100:2DtOY75d7fXSts1U@cluster0.nl
 // Route to get plans based on category and type
 
 app.get('/plans', async (req, res) => {
+  
   try {
     const { category, type } = req.query;
 
-    // Build regex-based query to match exactly (case-insensitive)
     const query = {};
 
     if (category) query.category = new RegExp(`^${category}$`, 'i');
