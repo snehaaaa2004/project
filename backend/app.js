@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose=require('mongoose')
 const Progress=require('./models/progress.js')
 const cors=require('cors')
+const progress = require('./models/progress.js')
 const app=express()
 const port=3000
 app.use(cors())
@@ -42,6 +43,16 @@ app.get('/progress',async(req,res)=>{
         console.error(error)
         res.status(500).json({error:error})
 
+    }
+})
+app.delete('/progress',async(req,res)=>{
+    try{
+        const users=await Progress.deleteMany({})
+            res.status(200).json(users)
+    }catch(error){
+        console.error(error)
+        res.status(500).json({error:error})
+        
     }
 })
 app.listen(port,()=>{

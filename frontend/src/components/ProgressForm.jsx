@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button'
 
 const ProgressForm = ({ userId, onAdd }) => {
   const [weight, setWeight] = useState('');
@@ -21,24 +22,38 @@ const ProgressForm = ({ userId, onAdd }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete all progress?")) return;
+    try {
+      await axios.delete('http://localhost:3000/progress');
+      onAdd(); // Optionally refresh the list if needed
+    } catch (err) {
+      console.error('Error deleting progress:', err);
+    }
+  };
+  
+
+
+
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
+    <form style={styles.form} onSubmit={handleSubmit}>
       <input
         type="number"
         value={weight}
         onChange={(e) => setWeight(e.target.value)}
         placeholder="Weight (kg)"
-        required
+        //required
         style={styles.input}
       />
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        required
+        //required
         style={styles.input}
       />
-      <button type="submit" style={styles.button}>Add</button>
+      <Button type="submit" style={styles.button} >Add</Button>
+      <Button type="submit" style={styles.button} onClick={handleDelete}>Delete All</Button>
     </form>
   );
 };
