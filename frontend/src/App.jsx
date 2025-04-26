@@ -1,18 +1,16 @@
-import React from 'react'
-import PlansDisplay from './componenets/PlansDisplay'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PlansDisplay from './componenets/PlansDisplay';
+import PlansResults from './componenets/PlanResults';
 
 function App() {
-
   return (
-
-    <div>
-
-      <PlansDisplay />
-
-    </div>
-
-  )
-
+    <Router>
+      <Routes>
+        <Route path="/" element={<PlansDisplay />} />
+        <Route path="/plans" element={<PlansResults />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
