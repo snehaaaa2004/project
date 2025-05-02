@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 
 const ProgressList = ({ userId, refresh }) => {
   const [entries, setEntries] = useState([]);
-
+   const [searchDate, setSearchDate] = useState('');
+    
   useEffect(() => {
     const fetchEntries = async () => {
       try {
@@ -18,8 +21,22 @@ const ProgressList = ({ userId, refresh }) => {
     fetchEntries();
   }, [userId, refresh]);
 
+  
+  const filteredweight = entries.filter((entry) =>
+    entry.date.toLowerCase().includes(searchDate.toLowerCase())
+  );
   return (
     <div style={styles.tableContainer}>
+          
+           <div style={styles.searchSection}>
+        <TextField
+          type="date"
+          value={searchDate}
+          onChange={(e) => setSearchDate(e.target.value)}
+          style={styles.input}
+        />
+        
+      </div>
       <table style={styles.table}>
         <thead>
           <tr>
@@ -28,12 +45,15 @@ const ProgressList = ({ userId, refresh }) => {
           </tr>
         </thead>
         <tbody>
-          {entries.map((entry) => (
+          {filteredweight.length > 0 ? (
+          filteredweight.map((entry) => (
             <tr key={entry._id}>
               <td style={styles.cell}>{new Date(entry.date).toLocaleDateString('en-GB')}</td>
               <td style={styles.cell}>{entry.weight}</td>
             </tr>
-          ))}
+          )) ): (
+            <p>no entries found</p>
+          )}
         </tbody>
       </table>
     </div>

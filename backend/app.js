@@ -45,7 +45,26 @@ app.get('/progress',async(req,res)=>{
 
     }
 })
-app.delete('/progress',async(req,res)=>{
+// PATCH /progress/:userId
+app.patch('/progress', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { date, weight } = req.body;
+  
+      const progress = await Progress.findOneAndUpdate(
+        { userId, date },
+        { weight },
+        { new: true }
+      );
+  
+      if (!progress) return res.status(404).json({ message: 'Progress not found for given date.' });
+      res.status(200).json(progress);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error });
+    }
+  });
+  app.delete('/progress',async(req,res)=>{
     try{
         const users=await Progress.deleteMany({})
             res.status(200).json(users)
@@ -55,6 +74,9 @@ app.delete('/progress',async(req,res)=>{
         
     }
 })
+
+  
+    
 app.listen(port,()=>{
     console.log("server started")
 })
